@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.alexandriabanta.orderandchaosv2">
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher_x"
+        android:label="Wild Tic-Tac-Toe"
+        android:roundIcon="@mipmap/ic_launcher_x_round"
+        android:supportsRtl="true"
+        android:theme="@style/AppTheme">
+        <activity android:name=".GameplayActivity"></activity>
+        <activity android:name=".AboutAppActivity" />
+        <activity android:name=".MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
+    </application>
+
+</manifest>

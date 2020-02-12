@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/gameplay_background_landscape"
+    tools:context=".GameplayActivity">
+
+    <TextView
+        android:id="@+id/turn_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="88dp"
+        android:fontFamily="@font/alegreya_sans_light"
+        android:text="Player 1's turn"
+        android:textColor="#000000"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.07"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/playAsTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="65dp"
+        android:fontFamily="@font/alegreya_sans_light"
+        android:text="@string/play_as"
+        android:textColor="#000000"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.13"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/turn_text_view" />
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="169dp"
+        android:layout_height="36dp"
+        android:layout_marginStart="32dp"
+        android:orientation="horizontal"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.08"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/playAsTextView">
+
+        <RadioButton
+            android:id="@+id/x_radio_button"
+            android:layout_width="2dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:checked="true"
+            android:text="X"
+            android:textSize="24sp" />
+
+        <RadioButton
+            android:id="@+id/o_radio_button"
+            android:layout_width="3dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:text="O"
+            android:textSize="24sp" />
+    </RadioGroup>
+
+    <TableLayout
+        android:id="@+id/tableLayout"
+        android:layout_width="353dp"
+        android:layout_height="328dp"
+        android:layout_marginStart="148dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageButton
+                android:id="@+id/row0col0"
+                android:layout_height="wrap_content"
+                android:backgroundTint="#00FFFFFF"
+                android:tint="#00202224"
+                app:srcCompat="@drawable/blank_board_piece" />
+
+            <ImageButton
+                android:id="@+id/row0col1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:backgroundTint="#00FFFFFF"
+                app:srcCompat="@drawable/blank_board_piece" />
+
+            <ImageButton
+                android:id="@+id/row0col2"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:backgroundTint="#00FFFFFF"
+                app:srcCompat="@drawable/blank_board_piece" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageButton
+                android:id="@+id/row1col0"
+                android:layout_width="94dp"
+                android:layout_height="94dp"
+                android:backgroundTint="#00FFFFFF"
+                app:srcCompat="@drawable/blank_board_piece" />
+
+            <ImageButton
+                android:id="@+id/row1col1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:backgroundTint="#00FFFFFF"
+                app:srcCompat="@drawable/blank_board_piece" />
+
+            <ImageButton
+                android:id="@+id/row1col2"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:backgroundTint="#00FFFFFF"
+                app:srcCompat="@drawable/blank_board_piece" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ImageButton
+                android:id="@+id/row2col0"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:backgroundTint="#00FFFFFF"
+                app:srcCompat="@drawable/blank_board_piece" />
+
+            <ImageButton
+                android:id="@+id/row2col1"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:backgroundTint="#00FFFFFF"
+                app:srcCompat="@drawable/blank_board_piece" />
+
+            <ImageButton
+                android:id="@+id/row2col2"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:backgroundTint="#00FFFFFF"
+                app:srcCompat="@drawable/blank_board_piece" />
+
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+    </TableLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
