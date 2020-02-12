@@ -41,6 +41,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         aboutTheAppButton.setOnClickListener(listener);
         playButton.setOnClickListener(this);
+
+        findViewById(R.id.reverse_tic_tac_toe_imageButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                playReverseTicTacToe();
+            }
+        });
     }
 
     // (2) Listener is implemented directly by the class that needs it
@@ -51,6 +58,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(i);
         }
     }
+
+    private void playReverseTicTacToe() {
+        Intent intent = new Intent(getApplicationContext(), ReverseTicTacToe.class);
+        startActivity(intent);
+    }
+
+
 
 }
 
