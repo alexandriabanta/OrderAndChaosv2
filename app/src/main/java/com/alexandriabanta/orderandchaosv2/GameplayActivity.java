@@ -162,7 +162,7 @@ public class GameplayActivity extends AppCompatActivity implements View.OnClickL
         else {
             // initialize board array as fully blank
             // set up each space as blank
-            playerNum = 1; pieceType = pieceTypes.Xes;
+            //playerNum = 1; pieceType = pieceTypes.Xes;
 
             if (savedInstanceState == null) {
                 for (int i = 0; i < ROWS; i++) {
@@ -227,14 +227,7 @@ public class GameplayActivity extends AppCompatActivity implements View.OnClickL
 
     public void onClick(View v) {
         //Log.i("PIECETYPES",""+pieceType);
-
-        if (!checkForWinner()) {
-
             playerTurn(v);
-
-        } //else {
-            //showWinnerAlertDialog();
-        //}
     }
 
     public void playerTurn(View spaceChosen) {
@@ -273,17 +266,19 @@ public class GameplayActivity extends AppCompatActivity implements View.OnClickL
                     ((ImageButton) findViewById(IDArr[rowOfSpaceChosen][colOfSpaceChosen])).setImageResource(R.drawable.o_board_piece);
                 }
 
+                if (!checkForWinner()) {
+                    switchPlayers();
+                }
+
             } else if (board[rowOfSpaceChosen][colOfSpaceChosen] != space.BLANK) {
                 //make a toast message that says "error, space taken. Try again with a different space.
                 Toast toast = Toast.makeText(getApplicationContext(),
-                        "FORFEIT A TURN! Please choose\n" +
-                                "an empty space next time!",
+                        "Choose an empty space!",
                         Toast.LENGTH_SHORT);
                 toast.show();
             }
 
         }  //else showWinnerAlertDialog();
-        checkForWinner();
     }
 
 
@@ -364,30 +359,12 @@ public class GameplayActivity extends AppCompatActivity implements View.OnClickL
         if (downwardDiagonalOStreak || upwardDiagonalOStreak ||
                 downwardDiagonalXStreak || upwardDiagonalXStreak) someoneWon = true;
 
-
+        //if someone won, reset defaults after displaying alert dialog.
         if (someoneWon) {
             showWinnerAlertDialog();
 
-            pieceType = pieceType.Xes; pieceTypeNum = 1;
-            //File file = new File(getFilesDir(),"wildTicTacToe.txt");
-            //file.delete();
-
-            //clear board
-            //for (int i = 0; i < ROWS; i++) {
-            //    for (int j = 0; j < COLS; j++) {
-            //        board[i][j] = space.BLANK;
-            //        ((ImageButton) findViewById(IDArr[i][j])).setImageResource(R.drawable.blank_board_piece);
-            //    }
-            //}
-
-        } else {
-            TextView playerText = findViewById(R.id.turn_text_view);
-
-            if (playerNum == 1) playerNum = 2;
-            else if (playerNum == 2) playerNum = 1;
-            else throw new RuntimeException("Error: only players 1 and 2 are allowed.");
-
-            playerText.setText("Player " + playerNum + "'s turn");
+            RadioButton b = (RadioButton) findViewById(R.id.x_radio_button);
+            b.setChecked(true); pieceType = pieceTypes.Xes; playerNum = 1;
         }
 
         return (someoneWon);
@@ -480,9 +457,6 @@ public class GameplayActivity extends AppCompatActivity implements View.OnClickL
     }
 
     public void showWinnerAlertDialog() {
-        //int otherPlayerNum = 0;
-        //if (playerNum == 1) otherPlayerNum = 2;
-        //else otherPlayerNum = 1;
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Congratulations!");
@@ -579,5 +553,16 @@ public class GameplayActivity extends AppCompatActivity implements View.OnClickL
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
+
+    protected void switchPlayers() {
+        if (playerNum == 1) {
+            playerNum = 2;
+        } else if (playerNum == 2) {
+            playerNum = 1;
+        }
+
+        TextView playerText = findViewById(R.id.turn_text_view);
+        playerText.setText("Player " + playerNum + "'s turn");
     }
 }
