@@ -9,11 +9,11 @@
 
     <TextView
         android:id="@+id/title_view"
-        android:layout_width="165dp"
-        android:layout_height="108dp"
+        android:layout_width="206dp"
+        android:layout_height="110dp"
         android:layout_marginBottom="120dp"
         android:fontFamily="@font/abril_fatface"
-        android:text="Wild"
+        android:text="A &amp; A"
         android:textAlignment="center"
         android:textColor="#000000"
         android:textSize="72sp"
@@ -22,7 +22,7 @@
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.302" />
+        app:layout_constraintVertical_bias="0.13999999" />
 
     <Button
         android:id="@+id/playButton"
@@ -30,7 +30,7 @@
         android:layout_height="76dp"
         android:layout_marginBottom="64dp"
         android:fontFamily="serif"
-        android:text="PLAY"
+        android:text="WILD"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -39,25 +39,24 @@
 
     <Button
         android:id="@+id/reverse_tic_tac_toe_imageButton"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="64dp"
+        android:layout_width="197dp"
+        android:layout_height="63dp"
         android:fontFamily="serif"
-        android:text="Reverse Tic Tac Toe"
+        android:text="REVERSE"
         android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/playButton"
-        app:layout_constraintVertical_bias="0.303" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <Button
         android:id="@+id/moreInfoButton"
-        android:layout_width="198dp"
-        android:layout_height="57dp"
+        android:layout_width="201dp"
+        android:layout_height="58dp"
         android:fontFamily="serif"
-        android:text="MORE INFO"
-        android:textSize="18sp"
+        android:text="[3rd var]"
+        android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
@@ -68,8 +67,8 @@
         android:layout_width="198dp"
         android:layout_height="57dp"
         android:fontFamily="serif"
-        android:text="ABOUT THE APP"
-        android:textSize="14sp"
+        android:text="INSTRUCTIONS"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"

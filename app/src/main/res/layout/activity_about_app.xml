@@ -9,9 +9,9 @@
 
     <TextView
         android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Copyright Alexandria Banta, December 2019."
+        android:layout_width="281dp"
+        android:layout_height="43dp"
+        android:text="Copyright Amanda McNair and Alexandria Banta, February 2020."
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -31,21 +31,24 @@
     <TextView
         android:id="@+id/textView3"
         android:layout_width="310dp"
-        android:layout_height="110dp"
-        android:text="Order and Chaos is a variation of tic-tac-toe invented by Stephen Sniderman in 1981. Both players can play as either order or chaos. Order strives to create a consecutive streak of five Os, and Chaos endeavors to fill the board with Xs before Order can win."
+        android:layout_height="147dp"
+        android:text="In Wild Tic-Tac-Toe, either player can play as X or O on any turn. Your goal is to get 3 in a row as either X or O. Good luck! \n\nIn Reverse Tic-Tac-Toe,  your goal is to AVIOD getting three in a row. Try to corner the other player into making a row of their pieces in a row, column or diagonal. Have fun!"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.495"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.499" />
 
     <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="About the App"
+        android:text="Instructions"
         android:textSize="36sp"
         app:layout_constraintBottom_toTopOf="@+id/textView3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.22000003" />
 </androidx.constraintlayout.widget.ConstraintLayout>

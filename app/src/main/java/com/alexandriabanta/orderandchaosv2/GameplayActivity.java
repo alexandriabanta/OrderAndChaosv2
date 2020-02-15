@@ -6,14 +6,27 @@ package com.alexandriabanta.orderandchaosv2;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.RadioButton;
 import android.widget.Toast;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.util.Log;
 import android.widget.RadioGroup;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.util.Scanner;
 
 public class GameplayActivity extends AppCompatActivity implements View.OnClickListener, RadioGroup.OnCheckedChangeListener {
 
@@ -24,13 +37,11 @@ public class GameplayActivity extends AppCompatActivity implements View.OnClickL
     enum pieceTypes {Xes, Oes}
 
     public pieceTypes pieceType = pieceTypes.Xes;
-    // board has 3 x 3 entries
+
     public static int ROWS = 3, COLS = 3;
     public space[][] board = new space[ROWS][COLS];
 
     public int playerNum = 1;
-    public int piecesPlaced = 0;
-
     Boolean someoneWon = false;
 
     // 3x3 array of IDs corresponding to board array
@@ -42,8 +53,8 @@ public class GameplayActivity extends AppCompatActivity implements View.OnClickL
 
     // the following for converting the board to a 1d array for
     // onSavedInstance purposes
-    public int[] oneDBoard = new int[9];
-    int pieceTypeNum;
+    public int[] oneDBoard = {0,0,0,0,0,0,0,0,0};
+    int pieceTypeNum = 1;
 
 
     @Override
@@ -51,23 +62,10 @@ public class GameplayActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gameplay);
 
-            // initialize board array as fully blank
-            // set up each space as blank
 
-        if (savedInstanceState == null) {
-            for (int i = 0; i < ROWS; i++) {
-                for (int j = 0; j < COLS; j++) {
-                    board[i][j] = space.BLANK;
-                    ((ImageButton) findViewById(IDArr[i][j])).setImageResource(R.drawable.blank_board_piece);
-                }
-            }
+        File save = new File(getFilesDir(), "wildTicTacToe.txt");
 
-            Toast toast = Toast.makeText(getApplicationContext(),
-                    "Player 1 plays first.",
-                    Toast.LENGTH_SHORT);
-            toast.show();
-        }
-
+        if (save.exists() && (save.length() != 0)) {
             RadioGroup rg = findViewById(R.id.radioGroup);
             rg.setOnCheckedChangeListener(this);
 
@@ -94,6 +92,122 @@ public class GameplayActivity extends AppCompatActivity implements View.OnClickL
             r2c0.setOnClickListener(this);
             r2c1.setOnClickListener(this);
             r2c2.setOnClickListener(this);
+
+            try {
+                FileInputStream fis = openFileInput("wildTicTacToe.txt");
+                Scanner scanner = new Scanner(fis);
+
+                // 1) oneDBoard
+                // 2) playerNum
+                // 3) pieceNum
+
+                for (int i = 0; i < 9; i++) {
+                    //save the 9 values into 1d board array
+                    oneDBoard[i] = Integer.parseInt(scanner.next());
+                    Log.i("1DBOARD",""+ oneDBoard[i]);
+                }
+
+                playerNum = Integer.parseInt(scanner.next());
+                pieceTypeNum = Integer.parseInt(scanner.next());
+
+                if (playerNum == 2) {
+                    TextView playerText = findViewById(R.id.turn_text_view);
+                    playerText.setText("Player " + playerNum + "'s turn");
+                }
+
+                //use the pieceTypeNum variable to restore the piece type
+                if (pieceTypeNum == 1) {
+                    pieceType = pieceTypes.Xes;
+                } else {
+                    RadioButton b = (RadioButton) findViewById(R.id.o_radio_button);
+                    b.setChecked(true); pieceType = pieceTypes.Oes;
+                }
+
+                // now that we have the pieces placed in the spaces, and the 1D array
+                // repopulate the board and ID array
+                int boardIndex = 0;
+                for (int row = 0; row < 3; row++) {
+                    for (int col = 0; col < 3; col++) {
+
+                        //0 means blank, 1 means O, 2 means X
+                        if (oneDBoard[boardIndex] == 0) {
+                            //saveVal = space.BLANK;
+                            board[row][col] = space.BLANK;
+                            //restore the blank imageViews
+                            ((ImageButton) findViewById(IDArr[row][col])).setImageResource(R.drawable.blank_board_piece);
+
+                        } else if (oneDBoard[boardIndex] == 1) {
+                            //saveVal = space.O;
+                            board[row][col] = space.O;
+                            //restore the O imageViews
+                            ((ImageButton) findViewById(IDArr[row][col])).setImageResource(R.drawable.o_board_piece);
+
+                        } else if (oneDBoard[boardIndex] == 2) {
+                            //saveVal = space.X;
+                            board[row][col] = space.X;
+                            //restore the X blank imageViews
+                            ((ImageButton) findViewById(IDArr[row][col])).setImageResource(R.drawable.x_board_piece);
+
+                        }
+                        boardIndex++;
+                    }
+
+                }
+
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+
+        else {
+            // initialize board array as fully blank
+            // set up each space as blank
+            playerNum = 1; pieceType = pieceTypes.Xes;
+
+            if (savedInstanceState == null) {
+                for (int i = 0; i < ROWS; i++) {
+                    for (int j = 0; j < COLS; j++) {
+                        board[i][j] = space.BLANK;
+                        ((ImageButton) findViewById(IDArr[i][j])).setImageResource(R.drawable.blank_board_piece);
+                    }
+                }
+
+                RadioGroup rg = findViewById(R.id.radioGroup);
+                rg.setOnCheckedChangeListener(this);
+
+                ImageButton r0c0 = findViewById(R.id.row0col0);
+                ImageButton r0c1 = findViewById(R.id.row0col1);
+                ImageButton r0c2 = findViewById(R.id.row0col2);
+
+                ImageButton r1c0 = findViewById(R.id.row1col0);
+                ImageButton r1c1 = findViewById(R.id.row1col1);
+                ImageButton r1c2 = findViewById(R.id.row1col2);
+
+                ImageButton r2c0 = findViewById(R.id.row2col0);
+                ImageButton r2c1 = findViewById(R.id.row2col1);
+                ImageButton r2c2 = findViewById(R.id.row2col2);
+
+                r0c0.setOnClickListener(this);
+                r0c1.setOnClickListener(this);
+                r0c2.setOnClickListener(this);
+
+                r1c0.setOnClickListener(this);
+                r1c1.setOnClickListener(this);
+                r1c2.setOnClickListener(this);
+
+                r2c0.setOnClickListener(this);
+                r2c1.setOnClickListener(this);
+                r2c2.setOnClickListener(this);
+
+                //File file = new File(getFilesDir(),"wildTicTacToe.txt");
+                //file.delete();
+
+                Toast toast = Toast.makeText(getApplicationContext(),
+                        "Player 1 plays first.",
+                        Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        }
     }
 
     @Override
@@ -112,39 +226,22 @@ public class GameplayActivity extends AppCompatActivity implements View.OnClickL
     }
 
     public void onClick(View v) {
-        if (!someoneWon) {
-            TextView playerText = findViewById(R.id.turn_text_view);
-            playerText.setText("Player " + playerNum + "'s turn");
-            if (playerNum == 1) {
-                playerTurn(v);
-                // update label text for next turn
-                if (!checkForWinner()) {
-                    playerText.setText("Player " + playerNum + "'s turn");
-                    //playerNum = 2;
-                }
-                playerNum = 2;
-            } else if (playerNum == 2) {
-                playerTurn(v);
-                // update label text for next turn
-                if (!checkForWinner()) {
-                    playerText.setText("Player " + playerNum + "'s turn");
-                    //playerNum = 1;
-                }
+        //Log.i("PIECETYPES",""+pieceType);
 
-                playerNum = 1;
-            } else {
-                throw new RuntimeException("Error: only players 1 and 2 are allowed.");
-            }
-            if (!checkForWinner()) playerText.setText("Player " + playerNum + "'s turn");
-        } else showWinnerToast();
+        if (!checkForWinner()) {
+
+            playerTurn(v);
+
+        } //else {
+            //showWinnerAlertDialog();
+        //}
     }
 
     public void playerTurn(View spaceChosen) {
         //assuming no one has won yet
-        if (!someoneWon) {
-            //ImageButton imageButton = (ImageButton) spaceChosen;
 
-            //if (!checkForWinner()) {
+        if (!checkForWinner()) {
+
             // get the corresponding index in the board arr
             int rowOfSpaceChosen = 0;
             int colOfSpaceChosen = 0;
@@ -154,13 +251,12 @@ public class GameplayActivity extends AppCompatActivity implements View.OnClickL
                     if (IDArr[row][col] == spaceChosen.getId()) {
                         rowOfSpaceChosen = row;
                         colOfSpaceChosen = col;
-                        Log.i("v,", "IDArr" + "[" + rowOfSpaceChosen + "][" + colOfSpaceChosen);
+                        Log.i("v,", "IDArr" + "[" + rowOfSpaceChosen + "][" + colOfSpaceChosen + "]");
                     }
                 }
             }
 
-            //Log.i("v,", "IDArr" + "[" + rowOfSpaceChosen + "][" + colOfSpaceChosen);
-            //if that space on the board is currently blank
+            //if the space they chose is blank, then they can place a piece.
             if (board[rowOfSpaceChosen][colOfSpaceChosen] == space.BLANK) {
 
                 if (pieceType == pieceTypes.Xes) {
@@ -169,33 +265,31 @@ public class GameplayActivity extends AppCompatActivity implements View.OnClickL
                     //update the interface
                     Log.i("imageButton,", "" + findViewById(IDArr[rowOfSpaceChosen][colOfSpaceChosen]));
                     ((ImageButton) findViewById(IDArr[rowOfSpaceChosen][colOfSpaceChosen])).setImageResource(R.drawable.x_board_piece);
-                    piecesPlaced++;
                 } else if (pieceType == pieceTypes.Oes) {
                     // set that index to O
                     board[rowOfSpaceChosen][colOfSpaceChosen] = space.O;
                     //update the interface
                     Log.i("imageButton,", "" + findViewById(IDArr[rowOfSpaceChosen][colOfSpaceChosen]));
                     ((ImageButton) findViewById(IDArr[rowOfSpaceChosen][colOfSpaceChosen])).setImageResource(R.drawable.o_board_piece);
-                    piecesPlaced++;
                 }
 
             } else if (board[rowOfSpaceChosen][colOfSpaceChosen] != space.BLANK) {
                 //make a toast message that says "error, space taken. Try again with a different space.
                 Toast toast = Toast.makeText(getApplicationContext(),
-                        "Error: Please choose an empty space.",
+                        "FORFEIT A TURN! Please choose\n" +
+                                "an empty space next time!",
                         Toast.LENGTH_SHORT);
                 toast.show();
             }
 
-            checkForWinner();
-        }
-        else showWinnerToast();
+        }  //else showWinnerAlertDialog();
+        checkForWinner();
     }
 
 
     public Boolean checkForWinner() {
         //Assume there is no winner in current turn
-        Boolean playerWon = false;
+        //Boolean playerWon = false;
 
         // left to right
         // up to down
@@ -205,18 +299,19 @@ public class GameplayActivity extends AppCompatActivity implements View.OnClickL
         // check for a COLUMN streak
         for (int col = 0; col < COLS; col++) {
             //check for streak of Os
-            if ((board[col][0] == space.O
+            if ((      board[col][0] == space.O
                     && board[col][1] == space.O
                     && board[col][2] == space.O)) {
+
                 //then there is a 3-spot streak, and current player won.
-                playerWon = true;
+                someoneWon = true;
                 Log.i("v", "through COL streak in col " + col);
             }
             //check for streak of Xs
             else if ((board[col][0] == space.X
                     && board[col][1] == space.X
                     && board[col][2] == space.X)) {
-                playerWon = true;
+                someoneWon = true;
                 Log.i("v", "through COL streak in col " + col);
             }
         }
@@ -227,17 +322,16 @@ public class GameplayActivity extends AppCompatActivity implements View.OnClickL
             if ((board[0][row] == space.O
                     && board[1][row] == space.O
                     && board[2][row] == space.O)) {
-                playerWon = true;
+                someoneWon = true;
                 Log.i("v", "through COL streak in col " + row);
 
             } else if ((board[0][row] == space.X
                     && board[1][row] == space.X
                     && board[2][row] == space.X)) {
-                playerWon = true;
+                someoneWon = true;
                 Log.i("v", "through COL streak in col " + row);
             }
         }
-
 
         // * o o        o o *
         // o * o        o * o
@@ -268,15 +362,35 @@ public class GameplayActivity extends AppCompatActivity implements View.OnClickL
         }
 
         if (downwardDiagonalOStreak || upwardDiagonalOStreak ||
-                downwardDiagonalXStreak || upwardDiagonalXStreak) playerWon = true;
+                downwardDiagonalXStreak || upwardDiagonalXStreak) someoneWon = true;
 
 
-        if (playerWon) {
-            someoneWon = true;
-            showWinnerToast();
+        if (someoneWon) {
+            showWinnerAlertDialog();
+
+            pieceType = pieceType.Xes; pieceTypeNum = 1;
+            //File file = new File(getFilesDir(),"wildTicTacToe.txt");
+            //file.delete();
+
+            //clear board
+            //for (int i = 0; i < ROWS; i++) {
+            //    for (int j = 0; j < COLS; j++) {
+            //        board[i][j] = space.BLANK;
+            //        ((ImageButton) findViewById(IDArr[i][j])).setImageResource(R.drawable.blank_board_piece);
+            //    }
+            //}
+
+        } else {
+            TextView playerText = findViewById(R.id.turn_text_view);
+
+            if (playerNum == 1) playerNum = 2;
+            else if (playerNum == 2) playerNum = 1;
+            else throw new RuntimeException("Error: only players 1 and 2 are allowed.");
+
+            playerText.setText("Player " + playerNum + "'s turn");
         }
 
-        return (playerWon);
+        return (someoneWon);
     }
 
 
@@ -331,7 +445,7 @@ public class GameplayActivity extends AppCompatActivity implements View.OnClickL
 
     }
 
-    //when i go back, I want to to do the same thing savedINstanceState does
+    //when i go back, I want to to do the same thing savedInstanceState does
     public void saveBundle(Bundle outState) {
         //convert the board to a 1d array and put it
 
@@ -365,14 +479,37 @@ public class GameplayActivity extends AppCompatActivity implements View.OnClickL
         outState.putInt("pieceTypeNum",pieceTypeNum);
     }
 
-    public void showWinnerToast() {
-        int otherPlayerNum = 0;
-        if (playerNum == 1) otherPlayerNum = 2;
-        else otherPlayerNum = 1;
-        Toast toast = Toast.makeText(getApplicationContext(),
-                "Congratulations, player " + otherPlayerNum + " won!\n Press 'Back' to play again.",
-                Toast.LENGTH_SHORT);
-        toast.show();
+    public void showWinnerAlertDialog() {
+        //int otherPlayerNum = 0;
+        //if (playerNum == 1) otherPlayerNum = 2;
+        //else otherPlayerNum = 1;
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Congratulations!");
+        builder.setMessage("Player "+ playerNum + " won! Click 'OK' to play another game.");
+
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int choice) {
+                // Dismiss Dialog
+                Intent in = new Intent(getApplicationContext(), MainActivity.class);
+                getApplicationContext().startActivity(in);
+
+                File file = new File(getFilesDir(),"wildTicTacToe.txt");
+                file.delete();
+
+                //clear board
+                for (int i = 0; i < ROWS; i++) {
+                    for (int j = 0; j < COLS; j++) {
+                        board[i][j] = space.BLANK;
+                        ((ImageButton) findViewById(IDArr[i][j])).setImageResource(R.drawable.blank_board_piece);
+                    }
+                }
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+        dialog.getWindow().setLayout(1100, 600);
     }
 
 
@@ -391,5 +528,56 @@ public class GameplayActivity extends AppCompatActivity implements View.OnClickL
         Intent i = new Intent(getApplicationContext(),MainActivity.class);
         startActivity(i);
         setContentView(R.layout.activity_main);
+    }
+
+    @Override
+    protected void onStop() {
+        try {
+            FileOutputStream FOS = openFileOutput("wildTicTacToe.txt", Context.MODE_PRIVATE);
+            OutputStreamWriter OSW = new OutputStreamWriter(FOS);
+            BufferedWriter BW = new BufferedWriter(OSW);
+            PrintWriter PW = new PrintWriter(BW);
+
+            // 1) oneDBoard
+            // 2) playerNum
+            // 3) pieceNUm
+
+            int boardIndex = 0, saveVal = 0;
+            for (int row = 0; row < 3; row++) {
+                for (int col = 0; col < 3; col++) {
+                    //saveVal 0 means blank, 1 means O, 2 means X
+                    if (board[row][col] == space.BLANK) {
+                        saveVal = 0;
+                    } else if (board[row][col] == space.O) {
+                        saveVal = 1;
+                    } else if (board[row][col] == space.X) {
+                        saveVal = 2;
+                    }
+
+                    oneDBoard[boardIndex] = saveVal;
+                    boardIndex++;
+                    PW.println(saveVal);
+                }
+            }
+
+            if (pieceType == pieceTypes.Xes) {
+                pieceTypeNum = 1;
+            } else if (pieceType == pieceTypes.Oes) {
+                pieceTypeNum = 2;
+            }
+
+            PW.println(playerNum);
+            PW.println(pieceTypeNum);
+            PW.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

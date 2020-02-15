@@ -1,6 +1,9 @@
 // Amanda and Alex
 package com.alexandriabanta.orderandchaosv2;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
@@ -174,6 +177,7 @@ public class ReverseTicTacToe extends AppCompatActivity implements  View.OnClick
     {
         player2Points++;
         Toast.makeText(this, "3 in a row Player 1 :(    Player 2 wins!", Toast.LENGTH_SHORT).show();
+        winAlertDialog(2);
 
         for(int i = 0;  i < 3; i++)
         {
@@ -188,7 +192,7 @@ public class ReverseTicTacToe extends AppCompatActivity implements  View.OnClick
     private void player2Loses() {
         player1Points++;
         Toast.makeText(this, "3 in a row Player 2 :(   Player 1 wins!", Toast.LENGTH_SHORT).show();
-
+        winAlertDialog(1);
         for(int i = 0;  i < 3; i++)
         {
             for (int j = 0; j < 3; j++)
@@ -255,5 +259,23 @@ public class ReverseTicTacToe extends AppCompatActivity implements  View.OnClick
         }
 
         return false;
+    }
+
+    public void winAlertDialog(int playerNum) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Congratulations!");
+        builder.setMessage("Player "+ playerNum + " won! Click 'OK' to play another game.");
+
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int choice) {
+                // Dismiss Dialog
+                Intent i = new Intent(getApplicationContext(), MainActivity.class);
+                getApplicationContext().startActivity(i);
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+        dialog.getWindow().setLayout(1100, 600);
     }
 }
