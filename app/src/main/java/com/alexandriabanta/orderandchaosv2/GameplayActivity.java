@@ -10,6 +10,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RadioButton;
@@ -43,6 +44,7 @@ public class GameplayActivity extends AppCompatActivity implements View.OnClickL
 
     public int playerNum = 1;
     Boolean someoneWon = false;
+    private MediaPlayer mediaPlayer;
 
     // 3x3 array of IDs corresponding to board array
     public static int[][] IDArr = {
@@ -61,6 +63,9 @@ public class GameplayActivity extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gameplay);
+        // music
+        mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.bensound_jazzyfrenchy_wild);
+        mediaPlayer.start();
 
 
         File save = new File(getFilesDir(), "wildTicTacToe.txt");
@@ -564,5 +569,20 @@ public class GameplayActivity extends AppCompatActivity implements View.OnClickL
 
         TextView playerText = findViewById(R.id.turn_text_view);
         playerText.setText("Player " + playerNum + "'s turn");
+    }
+
+    // stops the music when I leave game
+    @Override
+    protected void onPause() {
+        super.onPause();
+        if(mediaPlayer != null)
+        {
+            mediaPlayer.stop();
+            if(isFinishing())
+            {
+                mediaPlayer.stop();
+                mediaPlayer.release();
+            }
+        }
     }
 }

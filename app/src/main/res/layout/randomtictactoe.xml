@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:background="@drawable/question_mark_background"
+    android:background="@drawable/gameplay_background"
     android:layout_height="match_parent">
 
     <ScrollView
@@ -29,8 +29,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Random Tic Tac Toe"
-                    android:background="@android:color/holo_red_dark"
-                    android:textColor="#fff"
+                    android:fontFamily="@font/alegreya_sans_light"
+                    android:textColor="#000"
                     android:textSize="40sp"
                     android:textStyle="bold" />
             </RelativeLayout>
@@ -44,9 +44,9 @@
                     android:id="@+id/player1_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:background="@android:color/holo_red_dark"
                     android:text="Player 1(X): "
-                    android:textColor="#fff"
+                    android:fontFamily="@font/alegreya_sans_light"
+                    android:textColor="#000"
                     android:textSize="30sp"
                     android:textStyle="bold" />
 
@@ -55,9 +55,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/player1_textview"
-                    android:background="@android:color/holo_red_dark"
                     android:text="Player 2(O): "
-                    android:textColor="#fff"
+                    android:fontFamily="@font/alegreya_sans_light"
+                    android:textColor="#000"
                     android:textSize="30sp"
                     android:textStyle="bold" />
 
@@ -66,8 +66,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/player1_textview"
-                    android:background="@android:color/holo_red_dark"
-                    android:textColor="#fff"
+                    android:textColor="#000"
                     android:textSize="30sp"
                     android:textStyle="bold" />
 
@@ -77,8 +76,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/player1_score_textview"
                     android:layout_toRightOf="@id/player2_textview"
-                    android:background="@android:color/holo_red_dark"
-                    android:textColor="#fff"
+                    android:textColor="#000"
                     android:textSize="30sp"
                     android:textStyle="bold" />
 
@@ -87,9 +85,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/player2_textview"
-                    android:background="@android:color/holo_red_dark"
                     android:text="Round: "
-                    android:textColor="#fff"
+                    android:fontFamily="@font/alegreya_sans_light"
+                    android:textColor="#000"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
@@ -98,9 +96,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/roundCount_textView"
-                    android:background="@android:color/holo_red_dark"
                     android:text=""
-                    android:textColor="#fff"
+                    android:textColor="#000"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
@@ -119,8 +116,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Turn: Player 1"
-                    android:background="@android:color/holo_red_dark"
-                    android:textColor="#fff"
+                    android:fontFamily="@font/alegreya_sans_light"
+                    android:textColor="#000"
                     android:textSize="30sp"
                     android:textStyle="bold" />
 
@@ -244,6 +241,7 @@
                     android:layout_height="match_parent"
                     android:layout_weight="1"
                     android:background="#fff"
+                    android:fontFamily="@font/alegreya_sans_light"
                     android:text="Replay"
                     android:textColor="#000"
                     android:textSize="30sp" />
@@ -259,9 +257,9 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_marginTop="0dp"
+                    android:fontFamily="@font/alegreya_sans_light"
                     android:text="This is random tic tac toe. A coin is flipped to see who goes next. The odds are sort of in your favor. Have fun!"
-                    android:background="@android:color/holo_red_dark"
-                    android:textColor="#fff"
+                    android:textColor="#000"
                     android:textSize="25sp"
                     android:textStyle="bold" />
             </RelativeLayout>

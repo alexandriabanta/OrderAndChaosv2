@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:background="@drawable/reverse_tic_tac_toe_background3"
+    android:background="@drawable/gameplay_background"
     android:layout_height="match_parent">
 
     <ScrollView
@@ -29,6 +29,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Reverse Tic Tac Toe "
+                    android:fontFamily="@font/alegreya_sans_light"
                     android:textColor="#000"
                     android:textSize="40sp"
                     android:textStyle="bold" />
@@ -47,8 +48,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Player 1(X): "
-                    android:background="@color/Dark"
-                    android:textColor="#fff"
+                    android:fontFamily="@font/alegreya_sans_light"
+                    android:textColor="#000"
                     android:textSize="30sp"
                     android:textStyle="bold" />
 
@@ -58,8 +59,8 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/player1_textview"
                     android:text="Player 2(O): "
-                    android:background="@color/Dark"
-                    android:textColor="#fff"
+                    android:fontFamily="@font/alegreya_sans_light"
+                    android:textColor="#000"
                     android:textSize="30sp"
                     android:textStyle="bold" />
 
@@ -89,8 +90,8 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/player2_textview"
                     android:text="Round: "
-                    android:background="@color/Dark"
-                    android:textColor="#fff"
+                    android:fontFamily="@font/alegreya_sans_light"
+                    android:textColor="#000"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
@@ -123,8 +124,8 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Turn: Player 1"
-                    android:background="@color/Dark"
-                    android:textColor="#fff"
+                    android:fontFamily="@font/alegreya_sans_light"
+                    android:textColor="#000"
                     android:textSize="30sp"
                     android:textStyle="bold" />
 
@@ -249,6 +250,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:fontFamily="@font/alegreya_sans_light"
                     android:background="#fff"
                     android:text="Replay"
                     android:textColor="#000"
@@ -265,8 +267,8 @@
                     android:layout_alignParentTop="true"
                     android:layout_marginTop="0dp"
                     android:text="This is reverse tic tac toe. If you get 3 in a row, YOU LOSE! Have fun!"
-                    android:background="@color/Dark"
-                    android:textColor="#fff"
+                    android:fontFamily="@font/alegreya_sans_light"
+                    android:textColor="#000"
                     android:textSize="25sp"
                     android:textStyle="bold" />
             </RelativeLayout>
