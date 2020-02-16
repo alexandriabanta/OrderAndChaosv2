@@ -51,11 +51,11 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <Button
-        android:id="@+id/moreInfoButton"
+        android:id="@+id/random_tic_tac_toe_imageButton"
         android:layout_width="201dp"
         android:layout_height="58dp"
         android:fontFamily="serif"
-        android:text="[3rd var]"
+        android:text="Random"
         android:textSize="30sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
@@ -72,7 +72,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/moreInfoButton" />
+        app:layout_constraintTop_toBottomOf="@+id/random_tic_tac_toe_imageButton" />
 
     <TextView
         android:id="@+id/textView5"

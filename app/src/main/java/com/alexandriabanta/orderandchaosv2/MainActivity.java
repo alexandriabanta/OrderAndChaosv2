@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.activity_main);
 
         Button playButton = findViewById(R.id.playButton);
-        Button moreInfoButton = findViewById(R.id.moreInfoButton);
+        Button moreInfoButton = findViewById(R.id.random_tic_tac_toe_imageButton);
 
         //(1) Anonymous inner class listener pattern
         moreInfoButton.setOnClickListener(new View.OnClickListener() {
@@ -48,6 +48,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 playReverseTicTacToe();
             }
         });
+
+        findViewById(R.id.random_tic_tac_toe_imageButton).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                playRandomTicTacToe();
+            }
+        });
     }
 
     // (2) Listener is implemented directly by the class that needs it
@@ -64,6 +71,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         startActivity(intent);
     }
 
+
+    private void playRandomTicTacToe() {
+        Intent intent = new Intent(getApplicationContext(), RandomTicTacToe.class);
+        startActivity(intent);
+    }
 
 
 }
