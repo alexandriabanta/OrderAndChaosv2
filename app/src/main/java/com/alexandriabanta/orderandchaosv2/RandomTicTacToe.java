@@ -32,6 +32,7 @@ public class RandomTicTacToe extends AppCompatActivity implements  View.OnClickL
     // piece types are X and O
     enum pieceTypes {Xes, Oes}
 
+    private int roundCount = 0;
     private pieceTypes pieceType = pieceTypes.Xes;
 
     public static int ROWS = 3, COLS = 3;
@@ -107,9 +108,9 @@ public class RandomTicTacToe extends AppCompatActivity implements  View.OnClickL
 
                 if (playerNum == 2) {
 
-                    playAsTextView.setText("Play as Os");
+                    playAsTextView.setText("Play as O's");
                 } else if (playerNum ==1) {
-                    playAsTextView.setText("Play as Xs");
+                    playAsTextView.setText("Play as X's");
                 }
                 playerText.setText("Player " + playerNum + "'s turn");
 
@@ -273,6 +274,7 @@ public class RandomTicTacToe extends AppCompatActivity implements  View.OnClickL
                 }
 
                 if (!checkForWinner()) {
+                    roundCount++;
                     getRandomTurnNum();
                 }
 
@@ -284,7 +286,10 @@ public class RandomTicTacToe extends AppCompatActivity implements  View.OnClickL
                 toast.show();
             }
 
-        }  //else showWinnerAlertDialog();
+        }
+        if (roundCount >= 9) {
+            showDrawAlertDialog();
+        }
     }
 
 
@@ -485,6 +490,8 @@ public class RandomTicTacToe extends AppCompatActivity implements  View.OnClickL
                         ((ImageButton) findViewById(IDArr[i][j])).setImageResource(R.drawable.blank_board_piece);
                     }
                 }
+
+                roundCount = 0; //reset round count for next game
             }
         });
 
@@ -493,6 +500,37 @@ public class RandomTicTacToe extends AppCompatActivity implements  View.OnClickL
         dialog.getWindow().setLayout(1100, 600);
     }
 
+    public void showDrawAlertDialog() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Oh no!");
+        builder.setMessage("Looks like this one's a draw! Click 'OK' to play another game.");
+
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int choice) {
+                // Dismiss Dialog
+                Intent in = new Intent(getApplicationContext(), MainActivity.class);
+                getApplicationContext().startActivity(in);
+
+                File file = new File(getFilesDir(),"randomTicTacToe.txt");
+                file.delete();
+
+                //clear board
+                for (int i = 0; i < ROWS; i++) {
+                    for (int j = 0; j < COLS; j++) {
+                        board[i][j] = space.BLANK;
+                        ((ImageButton) findViewById(IDArr[i][j])).setImageResource(R.drawable.blank_board_piece);
+                    }
+                }
+
+                roundCount = 0; //reset round count for next game
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+        dialog.getWindow().setLayout(1100, 600);
+    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
@@ -561,19 +599,6 @@ public class RandomTicTacToe extends AppCompatActivity implements  View.OnClickL
     protected void onDestroy() {
         super.onDestroy();
     }
-
-    /*
-    protected void switchPlayers() {
-        if (playerNum == 1) {
-            playerNum = 2;
-        } else if (playerNum == 2) {
-            playerNum = 1;
-        }
-
-        TextView playerText = findViewById(R.id.turn_text_view_rtt);
-        playerText.setText("Player " + playerNum + "'s turn");
-    }
-    */
 
     public double getRandomTurnNum(){
         TextView playerText = findViewById(R.id.turn_text_view);

@@ -30,9 +30,9 @@
 
     <TextView
         android:id="@+id/textView3"
-        android:layout_width="310dp"
-        android:layout_height="147dp"
-        android:text="In Wild Tic-Tac-Toe, either player can play as X or O on any turn. Your goal is to get 3 in a row as either X or O. Good luck! \n\nIn Reverse Tic-Tac-Toe,  your goal is to AVIOD getting three in a row. Try to corner the other player into making a row of their pieces in a row, column or diagonal. Have fun!"
+        android:layout_width="314dp"
+        android:layout_height="230dp"
+        android:text="In Wild Tic-Tac-Toe, either player can play as X or O on any turn. Your goal is to get 3 in a row as either X or O. Good luck! \n\nIn Reverse Tic-Tac-Toe,  your goal is to AVOID getting three in a row. Try to corner the other player into making a row of their pieces in a row, column or diagonal. Have fun!\n\nIn Random Tic-Tac-Toe, the player whose turn it is is determined by the flip of a coin (or random number generator). In this game, Player 1 plays with X's, and Player 2 plays with O's. Break a leg!"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.495"
