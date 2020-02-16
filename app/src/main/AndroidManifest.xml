@@ -10,6 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".GameplayActivity"></activity>
+        <activity android:name=".RandomTicTacToe"></activity>
         <activity android:name=".AboutAppActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>

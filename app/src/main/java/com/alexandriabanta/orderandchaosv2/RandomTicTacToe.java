@@ -1,23 +1,19 @@
-// Alexandria Banta
-// Amanda McNair
-// CSCI 4010
-
 package com.alexandriabanta.orderandchaosv2;
-
-import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.RadioButton;
-import android.widget.Toast;
-import android.widget.ImageButton;
-import android.widget.TextView;
 import android.util.Log;
-import android.widget.RadioGroup;
+import android.view.View;
+import android.widget.ImageButton;
+//import android.widget.RadioButton;
+//import android.widget.RadioGroup;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.BufferedWriter;
 import java.io.File;
@@ -26,9 +22,11 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
+import java.util.Random;
 import java.util.Scanner;
 
-public class GameplayActivity extends AppCompatActivity implements View.OnClickListener, RadioGroup.OnCheckedChangeListener {
+public class RandomTicTacToe extends AppCompatActivity implements  View.OnClickListener {
+
 
     // spaces can be only X, O, or BLANK
     enum space {X, O, BLANK}
@@ -41,7 +39,7 @@ public class GameplayActivity extends AppCompatActivity implements View.OnClickL
     public static int ROWS = 3, COLS = 3;
     private space[][] board = new space[ROWS][COLS];
 
-    public int playerNum = 1;
+    private int playerNum = 1;
     Boolean someoneWon = false;
 
     // 3x3 array of IDs corresponding to board array
@@ -60,14 +58,14 @@ public class GameplayActivity extends AppCompatActivity implements View.OnClickL
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_gameplay);
+        setContentView(R.layout.random_tic_tac_toe_gameplay);
 
 
-        File save = new File(getFilesDir(), "wildTicTacToe.txt");
+        File save = new File(getFilesDir(), "randomTicTacToe.txt");
 
         if (save.exists() && (save.length() != 0)) {
-            RadioGroup rg = findViewById(R.id.radioGroup);
-            rg.setOnCheckedChangeListener(this);
+            //RadioGroup rg = findViewById(R.id.radioGroup);
+            //rg.setOnCheckedChangeListener(this);
 
             ImageButton r0c0 = findViewById(R.id.row0col0);
             ImageButton r0c1 = findViewById(R.id.row0col1);
@@ -94,7 +92,7 @@ public class GameplayActivity extends AppCompatActivity implements View.OnClickL
             r2c2.setOnClickListener(this);
 
             try {
-                FileInputStream fis = openFileInput("wildTicTacToe.txt");
+                FileInputStream fis = openFileInput("randomTicTacToe.txt");
                 Scanner scanner = new Scanner(fis);
 
                 // 1) oneDBoard
@@ -119,8 +117,9 @@ public class GameplayActivity extends AppCompatActivity implements View.OnClickL
                 if (pieceTypeNum == 1) {
                     pieceType = pieceTypes.Xes;
                 } else {
-                    RadioButton b = (RadioButton) findViewById(R.id.o_radio_button);
-                    b.setChecked(true); pieceType = pieceTypes.Oes;
+                    //RadioButton b = (RadioButton) findViewById(R.id.o_radio_button);
+                    //b.setChecked(true);
+                    pieceType = pieceTypes.Oes;
                 }
 
                 // now that we have the pieces placed in the spaces, and the 1D array
@@ -172,8 +171,8 @@ public class GameplayActivity extends AppCompatActivity implements View.OnClickL
                     }
                 }
 
-                RadioGroup rg = findViewById(R.id.radioGroup);
-                rg.setOnCheckedChangeListener(this);
+                //RadioGroup rg = findViewById(R.id.radioGroup);
+                //rg.setOnCheckedChangeListener(this);
 
                 ImageButton r0c0 = findViewById(R.id.row0col0);
                 ImageButton r0c1 = findViewById(R.id.row0col1);
@@ -202,6 +201,7 @@ public class GameplayActivity extends AppCompatActivity implements View.OnClickL
                 //File file = new File(getFilesDir(),"wildTicTacToe.txt");
                 //file.delete();
 
+
                 Toast toast = Toast.makeText(getApplicationContext(),
                         "Player 1 plays first.",
                         Toast.LENGTH_SHORT);
@@ -210,6 +210,7 @@ public class GameplayActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
+    /*
     @Override
     public void onCheckedChanged(RadioGroup radioGroup, int clickedId) {
         Log.i("clickedId", "" + clickedId);
@@ -225,9 +226,11 @@ public class GameplayActivity extends AppCompatActivity implements View.OnClickL
         }
     }
 
+     */
+
     public void onClick(View v) {
         //Log.i("PIECETYPES",""+pieceType);
-            playerTurn(v);
+        playerTurn(v);
     }
 
     public void playerTurn(View spaceChosen) {
@@ -250,7 +253,7 @@ public class GameplayActivity extends AppCompatActivity implements View.OnClickL
             }
 
             //if the space they chose is blank, then they can place a piece.
-            if (board[rowOfSpaceChosen][colOfSpaceChosen] == space.BLANK) {
+            if (board[rowOfSpaceChosen][colOfSpaceChosen] == RandomTicTacToe.space.BLANK) {
 
                 if (pieceType == pieceTypes.Xes) {
                     // set that index to X
@@ -267,7 +270,7 @@ public class GameplayActivity extends AppCompatActivity implements View.OnClickL
                 }
 
                 if (!checkForWinner()) {
-                    switchPlayers();
+                    getRandomTurnNum();
                 }
 
             } else if (board[rowOfSpaceChosen][colOfSpaceChosen] != space.BLANK) {
@@ -363,8 +366,9 @@ public class GameplayActivity extends AppCompatActivity implements View.OnClickL
         if (someoneWon) {
             showWinnerAlertDialog();
 
-            RadioButton b = (RadioButton) findViewById(R.id.x_radio_button);
-            b.setChecked(true); pieceType = pieceTypes.Xes; playerNum = 1;
+            //RadioButton b = (RadioButton) findViewById(R.id.x_radio_button);
+            //b.setChecked(true);
+            pieceType = pieceTypes.Xes; playerNum = 1;
         }
 
         return (someoneWon);
@@ -468,7 +472,7 @@ public class GameplayActivity extends AppCompatActivity implements View.OnClickL
                 Intent in = new Intent(getApplicationContext(), MainActivity.class);
                 getApplicationContext().startActivity(in);
 
-                File file = new File(getFilesDir(),"wildTicTacToe.txt");
+                File file = new File(getFilesDir(),"randomTicTacToe.txt");
                 file.delete();
 
                 //clear board
@@ -507,7 +511,7 @@ public class GameplayActivity extends AppCompatActivity implements View.OnClickL
     @Override
     protected void onStop() {
         try {
-            FileOutputStream FOS = openFileOutput("wildTicTacToe.txt", Context.MODE_PRIVATE);
+            FileOutputStream FOS = openFileOutput("randomTicTacToe.txt", Context.MODE_PRIVATE);
             OutputStreamWriter OSW = new OutputStreamWriter(FOS);
             BufferedWriter BW = new BufferedWriter(OSW);
             PrintWriter PW = new PrintWriter(BW);
@@ -555,6 +559,7 @@ public class GameplayActivity extends AppCompatActivity implements View.OnClickL
         super.onDestroy();
     }
 
+    /*
     protected void switchPlayers() {
         if (playerNum == 1) {
             playerNum = 2;
@@ -562,9 +567,34 @@ public class GameplayActivity extends AppCompatActivity implements View.OnClickL
             playerNum = 1;
         }
 
-        TextView playerText = findViewById(R.id.turn_textview);
+        TextView playerText = findViewById(R.id.turn_text_view_rtt);
         playerText.setText("Player " + playerNum + "'s turn");
     }
+    */
 
+    public double getRandomTurnNum(){
+        TextView playerText = findViewById(R.id.turn_text_view);
+        TextView playAsText = findViewById(R.id.play_as_text_view);
+
+        Random r = new Random();
+        playerNum = r.nextInt((2 - 1) + 1) + 1;
+
+        Toast toast = Toast.makeText(getApplicationContext(),
+                "Coin flipped... player " + playerNum + "'s turn!",
+                Toast.LENGTH_SHORT);
+        toast.show();
+
+        playerText.setText("Player " + playerNum + "'s turn");
+
+        if (playerNum == 1) {
+            pieceType = pieceTypes.Xes;
+            playAsText.setText("Play as X's");
+        } else if (playerNum == 2) {
+            pieceType = pieceTypes.Oes;
+            playAsText.setText("Play as O's");
+        }
+
+        return playerNum;
+    }
 
 }

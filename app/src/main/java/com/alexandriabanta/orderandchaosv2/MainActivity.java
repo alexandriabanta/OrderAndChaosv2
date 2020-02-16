@@ -19,18 +19,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        //TextView titleView = findViewById(R.id.title_view);
+        //Typeface typeface = getResources().getFont(R.font.abril_fatface);
+        //titleView.setTypeface(typeface);
+
         Button playButton = findViewById(R.id.playButton);
-        Button moreInfoButton = findViewById(R.id.moreInfoButton);
+        Button randomButton = findViewById(R.id.randomButton);
 
         //(1) Anonymous inner class listener pattern
-        moreInfoButton.setOnClickListener(new View.OnClickListener() {
+        randomButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // First listener method (anonymous inner class)
-                final String URL = "https://en.wikipedia.org/wiki/Order_and_Chaos";
-                Uri uri = Uri.parse(URL);
-                Intent i = new Intent(Intent.ACTION_VIEW,uri);
-                startActivity(i);
+                playRandomTicTacToe();
             }
         });
 
@@ -64,7 +65,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         startActivity(intent);
     }
 
-
+    private void playRandomTicTacToe() {
+        Intent intent = new Intent(getApplicationContext(), RandomTicTacToe.class);
+        startActivity(intent);
+    }
 
 }
 
