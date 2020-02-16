@@ -8,8 +8,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
-//import android.widget.RadioButton;
-//import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -62,10 +60,7 @@ public class RandomTicTacToe extends AppCompatActivity implements  View.OnClickL
 
 
         File save = new File(getFilesDir(), "randomTicTacToe.txt");
-
         if (save.exists() && (save.length() != 0)) {
-            //RadioGroup rg = findViewById(R.id.radioGroup);
-            //rg.setOnCheckedChangeListener(this);
 
             ImageButton r0c0 = findViewById(R.id.row0col0);
             ImageButton r0c1 = findViewById(R.id.row0col1);
@@ -92,6 +87,8 @@ public class RandomTicTacToe extends AppCompatActivity implements  View.OnClickL
             r2c2.setOnClickListener(this);
 
             try {
+                TextView playAsTextView = findViewById(R.id.play_as_text_view);
+                TextView playerText = findViewById(R.id.turn_text_view);
                 FileInputStream fis = openFileInput("randomTicTacToe.txt");
                 Scanner scanner = new Scanner(fis);
 
@@ -109,9 +106,12 @@ public class RandomTicTacToe extends AppCompatActivity implements  View.OnClickL
                 pieceTypeNum = Integer.parseInt(scanner.next());
 
                 if (playerNum == 2) {
-                    TextView playerText = findViewById(R.id.turn_textview);
-                    playerText.setText("Player " + playerNum + "'s turn");
+
+                    playAsTextView.setText("Play as Os");
+                } else if (playerNum ==1) {
+                    playAsTextView.setText("Play as Xs");
                 }
+                playerText.setText("Player " + playerNum + "'s turn");
 
                 //use the pieceTypeNum variable to restore the piece type
                 if (pieceTypeNum == 1) {
@@ -163,7 +163,10 @@ public class RandomTicTacToe extends AppCompatActivity implements  View.OnClickL
             // set up each space as blank
             //playerNum = 1; pieceType = pieceTypes.Xes;
 
-            if (savedInstanceState == null) {
+            TextView playAsText = findViewById(R.id.play_as_text_view);
+            playAsText.setText("Play as X's");
+
+            //if (savedInstanceState == null) {
                 for (int i = 0; i < ROWS; i++) {
                     for (int j = 0; j < COLS; j++) {
                         board[i][j] = space.BLANK;
@@ -206,7 +209,7 @@ public class RandomTicTacToe extends AppCompatActivity implements  View.OnClickL
                         "Player 1 plays first.",
                         Toast.LENGTH_SHORT);
                 toast.show();
-            }
+            //}
         }
     }
 

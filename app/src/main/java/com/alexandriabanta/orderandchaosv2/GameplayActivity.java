@@ -111,7 +111,7 @@ public class GameplayActivity extends AppCompatActivity implements View.OnClickL
                 pieceTypeNum = Integer.parseInt(scanner.next());
 
                 if (playerNum == 2) {
-                    TextView playerText = findViewById(R.id.turn_textview);
+                    TextView playerText = findViewById(R.id.turn_text_view);
                     playerText.setText("Player " + playerNum + "'s turn");
                 }
 
@@ -562,7 +562,7 @@ public class GameplayActivity extends AppCompatActivity implements View.OnClickL
             playerNum = 1;
         }
 
-        TextView playerText = findViewById(R.id.turn_textview);
+        TextView playerText = findViewById(R.id.turn_text_view);
         playerText.setText("Player " + playerNum + "'s turn");
     }
 

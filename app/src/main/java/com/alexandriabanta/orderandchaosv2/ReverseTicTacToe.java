@@ -10,11 +10,9 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-//import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.io.BufferedWriter;
@@ -62,6 +60,7 @@ public class ReverseTicTacToe extends AppCompatActivity implements  View.OnClick
 
     @Override
     protected void onStop() {
+
         try {
             FileOutputStream FOS = openFileOutput("rvTicTacToe.txt", Context.MODE_PRIVATE);
             OutputStreamWriter OSW = new OutputStreamWriter(FOS);
@@ -138,20 +137,12 @@ public class ReverseTicTacToe extends AppCompatActivity implements  View.OnClick
         }
 
         File save = new File(getFilesDir(), "rvTicTacToe.txt");
+        //resetBoard();
         if (save.exists() && save.length() != 0) {
             tryRestoreGame();
-        } else {
-            findViewById(R.id.replay_button).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    for (int i = 0; i < 3; i++) {
-                        for (int j = 0; j < 3; j++) {
-                            words[i][j].setText("");
-                            replay();
-                        }
-                    }
-                }
-            });
+        } else { //this is a new game, so make board blank
+            roundCount = 0;
+            resetBoard();
         }
     }
 
@@ -175,7 +166,6 @@ public class ReverseTicTacToe extends AppCompatActivity implements  View.OnClick
         if (!((Button) view).getText().toString().equals("")) {
             return;
         }
-
 
         if (player1Turn) {
             ((Button) view).setText("X");
@@ -203,12 +193,12 @@ public class ReverseTicTacToe extends AppCompatActivity implements  View.OnClick
             player2Loses();
             roundNumberText.setText("" + roundCount);
         } else if (count >= 8) {
-            draw();
-
+            drawAlertDialog();
         }
         count++;
     }
 
+    /*
     private void replay() {
         for (int i = 0; i < 3; i++) {
             for (int j = 0; j < 3; j++) {
@@ -217,6 +207,7 @@ public class ReverseTicTacToe extends AppCompatActivity implements  View.OnClick
         }
         count = 0;
     }
+    */
 
     private void player1Loses() {
         player2Points++;
@@ -247,8 +238,8 @@ public class ReverseTicTacToe extends AppCompatActivity implements  View.OnClick
         roundCount++;
         roundNumberText.setText("" + roundCount);
         Toast.makeText(this, "Draw!", Toast.LENGTH_SHORT).show();
-        count = 0;
-        //resetBoard();
+        roundCount = 0;
+        resetBoard();
     }
 
     private void updatePointsText() {
@@ -293,6 +284,9 @@ public class ReverseTicTacToe extends AppCompatActivity implements  View.OnClick
     }
 
     public void winAlertDialog(int playerNum) {
+        File file = new File(getFilesDir(), "rvTicTacToe.txt");
+        file.delete();
+
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Congratulations!");
         builder.setMessage("Player " + playerNum + " won! Click 'OK' to play another game.");
@@ -300,13 +294,46 @@ public class ReverseTicTacToe extends AppCompatActivity implements  View.OnClick
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int choice) {
                 // Dismiss Dialog
+
+                resetBoard();
                 Intent i = new Intent(getApplicationContext(), MainActivity.class);
                 getApplicationContext().startActivity(i);
-
-                File file = new File(getFilesDir(), "rvTicTacToe.txt");
-                file.delete();
+                count = 0;
+                roundCount = 0;
             }
         });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+        dialog.getWindow().setLayout(1100, 600);
+    }
+
+    public void drawAlertDialog() {
+        Log.i("DRAW","");
+        File file = new File(getFilesDir(), "rvTicTacToe.txt");
+        file.delete();
+        Log.i("DRAW","File deleted");
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Oh no!");
+        builder.setMessage("Looks like this time was a draw. Click 'OK' to play again!");
+
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int choice) {
+                // Dismiss Dialog
+                Intent in = new Intent(getApplicationContext(), MainActivity.class);
+                getApplicationContext().startActivity(in);
+
+                //reset board
+                resetBoard();
+                Log.i("DRAW","board cleared");
+                count = 0;
+                roundCount = 0;
+                Log.i("DRAW","roundCount = " + roundCount);
+                Log.i("DRAW","count = " + count);
+            }
+        });
+
 
         AlertDialog dialog = builder.create();
         dialog.show();
@@ -368,6 +395,20 @@ public class ReverseTicTacToe extends AppCompatActivity implements  View.OnClick
         } catch (FileNotFoundException e) {
             e.printStackTrace();
             Log.i("FILE","");
+            File file = new File(getFilesDir(), "rvTicTacToe.txt");
+            file.delete();
         }
+    }
+
+    private void resetBoard() {
+        for (int i = 0; i < 3; i++) {
+            for (int j = 0; j < 3; j++) {
+                words[i][j].setText("");
+                //words[i][j].setOnClickListener(null);
+            }
+        }
+
+        File file = new File(getFilesDir(), "rvTicTacToe.txt");
+        file.delete();
     }
 }
