@@ -10,9 +10,11 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.Toast;
 import android.widget.ImageButton;
@@ -44,7 +46,10 @@ public class GameplayActivity extends AppCompatActivity implements View.OnClickL
 
     public int playerNum = 1;
     Boolean someoneWon = false;
+
     private MediaPlayer mediaPlayer;
+    Boolean musicOff = true;
+    private Button musicStatus;
 
     // 3x3 array of IDs corresponding to board array
     public static int[][] IDArr = {
@@ -63,9 +68,37 @@ public class GameplayActivity extends AppCompatActivity implements View.OnClickL
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gameplay);
+
         // music
-        mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.bensound_jazzyfrenchy_wild);
+        this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
+        mediaPlayer = MediaPlayer.create(getBaseContext(), R.raw.bensound_jazzyfrenchy_wild);
+        //mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.bensound_thelounge_random);
+        mediaPlayer.setLooping(true);
         mediaPlayer.start();
+        musicStatus = findViewById(R.id.sound_on_button);
+
+        // switch music on and off
+        findViewById(R.id.sound_on_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (musicOff == false)
+                {
+                    musicStatus.setText("MUSIC ON");
+                    mediaPlayer = MediaPlayer.create(getBaseContext(), R.raw.bensound_jazzyfrenchy_wild);
+                    mediaPlayer.setLooping(true);
+                    mediaPlayer.start();
+                    musicOff = true;
+                }
+                // true
+                else
+                {
+                    musicStatus.setText("MUSIC OFF");
+                    mediaPlayer.stop();
+                    mediaPlayer.reset();
+                    musicOff = false;
+                }
+            }
+        });
 
 
         File save = new File(getFilesDir(), "wildTicTacToe.txt");

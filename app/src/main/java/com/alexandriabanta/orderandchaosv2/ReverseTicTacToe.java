@@ -6,6 +6,7 @@ package com.alexandriabanta.orderandchaosv2;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
@@ -48,6 +49,8 @@ public class ReverseTicTacToe extends AppCompatActivity implements  View.OnClick
     private boolean button3_3Clicked = false;
 
     private MediaPlayer mediaPlayer;
+    Boolean musicOff = true;
+    private Button musicStatus;
 
 
     @Override
@@ -60,13 +63,41 @@ public class ReverseTicTacToe extends AppCompatActivity implements  View.OnClick
         getSupportActionBar().setDisplayUseLogoEnabled(true);
 
         // music
-        mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.bensound_jazzcomedy_reverse);
+        this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
+        mediaPlayer = MediaPlayer.create(getBaseContext(), R.raw.bensound_jazzcomedy_reverse);
+        //mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.bensound_thelounge_random);
+        mediaPlayer.setLooping(true);
         mediaPlayer.start();
+
+        musicStatus = findViewById(R.id.sound_on_button);
 
         player1Text = findViewById(R.id.player1_score_textview);
         player2Text = findViewById(R.id.player2_score_textview);
         roundNumberText = findViewById(R.id.roundCount_number);
         turnText = findViewById(R.id.turn_textview);
+
+        // switch music on and off
+        findViewById(R.id.sound_on_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (musicOff == false)
+                {
+                    musicStatus.setText("MUSIC ON");
+                    mediaPlayer = MediaPlayer.create(getBaseContext(), R.raw.bensound_jazzcomedy_reverse);
+                    mediaPlayer.setLooping(true);
+                    mediaPlayer.start();
+                    musicOff = true;
+                }
+                // true
+                else
+                {
+                    musicStatus.setText("MUSIC OFF");
+                    mediaPlayer.stop();
+                    mediaPlayer.reset();
+                    musicOff = false;
+                }
+            }
+        });
 
         findViewById(R.id.replay_button).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -266,13 +297,21 @@ public class ReverseTicTacToe extends AppCompatActivity implements  View.OnClick
     public void winAlertDialog(int playerNum) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Congratulations!");
-        builder.setMessage("Player "+ playerNum + " won! Click 'OK' to play another game.");
+        builder.setMessage("Player "+ playerNum + " won! Click 'Play again!' or 'OK' to play another game.");
 
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int choice) {
                 // Dismiss Dialog
                 Intent i = new Intent(getApplicationContext(), MainActivity.class);
                 getApplicationContext().startActivity(i);
+            }
+        });
+
+        builder.setPositiveButton("Play again!", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int choice) {
+                // Dismiss Dialog
+                //Intent i = new Intent(getApplicationContext(), ReverseTicTacToe.class);
+                //getApplicationContext().startActivity(i);
             }
         });
 
