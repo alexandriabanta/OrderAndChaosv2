@@ -9,7 +9,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.net.Uri;
 import android.content.Intent;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
@@ -19,28 +18,30 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Button playButton = findViewById(R.id.playButton);
-        Button moreInfoButton = findViewById(R.id.moreInfoButton);
+        //wild
+        Button wildButton = findViewById(R.id.playButton);
+        //reverse
+        Button reverseButton = findViewById(R.id.reverse_tic_tac_toe_imageButton);
+        //random
+        Button randomButton = findViewById(R.id.randomButton);
+        //about the app
+        Button instructionsButton = findViewById(R.id.aboutTheAppButton);
 
         //(1) Anonymous inner class listener pattern
-        moreInfoButton.setOnClickListener(new View.OnClickListener() {
+        reverseButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // First listener method (anonymous inner class)
-                final String URL = "https://en.wikipedia.org/wiki/Order_and_Chaos";
-                Uri uri = Uri.parse(URL);
-                Intent i = new Intent(Intent.ACTION_VIEW,uri);
-                startActivity(i);
+                playReverseTicTacToe();
             }
         });
 
-        Button aboutTheAppButton = findViewById(R.id.aboutTheAppButton);
-
         Intent i = new Intent(getApplicationContext(),AboutAppActivity.class);
-        AboutAppListener listener = new AboutAppListener(i, getApplicationContext());
+        InstructionsListener listener = new InstructionsListener(i, getApplicationContext());
 
-        aboutTheAppButton.setOnClickListener(listener);
-        playButton.setOnClickListener(this);
+        instructionsButton.setOnClickListener(listener);
+        wildButton.setOnClickListener(this);
+        //reverseButton.setOnClickListener(this);
+        randomButton.setOnClickListener(this);
 
         findViewById(R.id.reverse_tic_tac_toe_imageButton).setOnClickListener(new View.OnClickListener() {
             @Override
@@ -56,6 +57,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (v.getId() == R.id.playButton) {
             Intent i = new Intent(getApplicationContext(),GameplayActivity.class);
             startActivity(i);
+        } else if (v.getId() == R.id.randomButton) {
+            playRandom();
         }
     }
 
@@ -64,6 +67,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         startActivity(intent);
     }
 
+    private void playRandom() {
+        Intent intent = new Intent(getApplicationContext(), RandomTicTacToe.class);
+        startActivity(intent);
+    }
 
 
 }

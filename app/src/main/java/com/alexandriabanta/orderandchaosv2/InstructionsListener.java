@@ -11,11 +11,11 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 
 // (3) Listener in separate .java file
-public class AboutAppListener extends AppCompatActivity implements View.OnClickListener {
+public class InstructionsListener extends AppCompatActivity implements View.OnClickListener {
 
     private Intent intent; private Context context;
 
-    public AboutAppListener(Intent intentParam, Context contextParam) {
+    public InstructionsListener(Intent intentParam, Context contextParam) {
         this.intent = intentParam; this.context = contextParam;
     }
 
