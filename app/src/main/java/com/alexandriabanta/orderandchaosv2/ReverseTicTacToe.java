@@ -1,4 +1,6 @@
-// Amanda and Alex
+/*
+Copyright Amanda McNair and Alexandria Banta, February 2020.
+ */
 package com.alexandriabanta.orderandchaosv2;
 
 import android.app.AlertDialog;
