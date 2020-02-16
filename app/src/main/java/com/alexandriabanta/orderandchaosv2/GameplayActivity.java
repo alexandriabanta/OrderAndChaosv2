@@ -36,11 +36,10 @@ public class GameplayActivity extends AppCompatActivity implements View.OnClickL
     // piece types are X and O
     enum pieceTypes {Xes, Oes}
 
-    private int roundCount = 0; //keeps track of turns in case of draw
-    private pieceTypes pieceType = pieceTypes.Xes;
+    public pieceTypes pieceType = pieceTypes.Xes;
 
     public static int ROWS = 3, COLS = 3;
-    private space[][] board = new space[ROWS][COLS];
+    public space[][] board = new space[ROWS][COLS];
 
     public int playerNum = 1;
     Boolean someoneWon = false;
@@ -233,7 +232,6 @@ public class GameplayActivity extends AppCompatActivity implements View.OnClickL
 
     public void playerTurn(View spaceChosen) {
         //assuming no one has won yet
-        Log.i("ROUND COUNT: ","" + roundCount);
 
         if (!checkForWinner()) {
 
@@ -269,10 +267,8 @@ public class GameplayActivity extends AppCompatActivity implements View.OnClickL
                 }
 
                 if (!checkForWinner()) {
-                    roundCount++;
                     switchPlayers();
                 }
-
 
             } else if (board[rowOfSpaceChosen][colOfSpaceChosen] != space.BLANK) {
                 //make a toast message that says "error, space taken. Try again with a different space.
@@ -282,11 +278,7 @@ public class GameplayActivity extends AppCompatActivity implements View.OnClickL
                 toast.show();
             }
 
-        }
-
-        if (roundCount >= 9) {
-            showDrawAlertDialog();
-        }
+        }  //else showWinnerAlertDialog();
     }
 
 
@@ -486,40 +478,6 @@ public class GameplayActivity extends AppCompatActivity implements View.OnClickL
                         ((ImageButton) findViewById(IDArr[i][j])).setImageResource(R.drawable.blank_board_piece);
                     }
                 }
-
-                roundCount = 0; //reset the round count
-            }
-        });
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
-        dialog.getWindow().setLayout(1100, 600);
-    }
-
-    public void showDrawAlertDialog() {
-
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Oh no!");
-        builder.setMessage("Looks like this one was a draw! Click 'OK' to play another game.");
-
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int choice) {
-                // Dismiss Dialog
-                Intent in = new Intent(getApplicationContext(), MainActivity.class);
-                getApplicationContext().startActivity(in);
-
-                File file = new File(getFilesDir(),"wildTicTacToe.txt");
-                file.delete();
-
-                //clear board
-                for (int i = 0; i < ROWS; i++) {
-                    for (int j = 0; j < COLS; j++) {
-                        board[i][j] = space.BLANK;
-                        ((ImageButton) findViewById(IDArr[i][j])).setImageResource(R.drawable.blank_board_piece);
-                    }
-                }
-
-                roundCount = 0; //reset the round count
             }
         });
 
@@ -607,6 +565,4 @@ public class GameplayActivity extends AppCompatActivity implements View.OnClickL
         TextView playerText = findViewById(R.id.turn_text_view);
         playerText.setText("Player " + playerNum + "'s turn");
     }
-
-
 }

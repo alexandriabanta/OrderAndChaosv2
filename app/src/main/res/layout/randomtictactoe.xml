@@ -28,7 +28,7 @@
                     android:id="@+id/game_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Reverse Tic Tac Toe "
+                    android:text="Random Tic Tac Toe"
                     android:fontFamily="@font/alegreya_sans_light"
                     android:textColor="#000"
                     android:textSize="40sp"
@@ -50,12 +50,9 @@
 
             </LinearLayout>
 
-
-
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
-
 
 
                 <TextView
@@ -85,8 +82,8 @@
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/player1_textview"
                     android:textColor="#000"
-                    android:textStyle="bold"
-                    android:textSize="30sp" />
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/player2_score_textview"
@@ -94,10 +91,9 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/player1_score_textview"
                     android:layout_toRightOf="@id/player2_textview"
-                    android:background="@color/Dark"
-                    android:textColor="#fff"
-                    android:textStyle="bold"
-                    android:textSize="30sp" />
+                    android:textColor="#000"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/roundCount_textView"
@@ -116,16 +112,12 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/roundCount_textView"
                     android:text=""
-                    android:background="@color/Dark"
-                    android:textColor="#fff"
+                    android:textColor="#000"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
+
             </RelativeLayout>
-
-
-
-
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -143,8 +135,6 @@
                     android:textColor="#000"
                     android:textSize="30sp"
                     android:textStyle="bold" />
-
-
 
             </LinearLayout>
 
@@ -265,10 +255,12 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:fontFamily="@font/alegreya_sans_light"
                     android:background="#fff"
+                    android:fontFamily="@font/alegreya_sans_light"
+                    android:text="Replay"
                     android:textColor="#000"
                     android:textSize="30sp" />
+
             </LinearLayout>
 
             <RelativeLayout
@@ -280,12 +272,13 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentTop="true"
                     android:layout_marginTop="0dp"
-                    android:text="This is reverse tic tac toe. If you get 3 in a row, YOU LOSE! Have fun!"
                     android:fontFamily="@font/alegreya_sans_light"
+                    android:text="This is random tic tac toe. A coin is flipped to see who goes next. The odds are sort of in your favor. Have fun!"
                     android:textColor="#000"
                     android:textSize="25sp"
                     android:textStyle="bold" />
             </RelativeLayout>
+
 
         </LinearLayout>
     </ScrollView>
