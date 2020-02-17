@@ -4,6 +4,7 @@ package com.alexandriabanta.orderandchaosv2;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.util.Log;
@@ -47,7 +48,10 @@ public class ReverseTicTacToe extends AppCompatActivity implements  View.OnClick
 
     private MediaPlayer mediaPlayer;
     Boolean musicOff = true;
-    private Button musicStatus;
+    private Button randomMusicStatus;
+    private Button reverseMusicStatus;
+    private Button wildMusicStatus;
+
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,8 +63,15 @@ public class ReverseTicTacToe extends AppCompatActivity implements  View.OnClick
         getSupportActionBar().setDisplayUseLogoEnabled(true);
 
         // music
-        mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.bensound_jazzcomedy_reverse);
-        mediaPlayer.start();
+        this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
+        mediaPlayer = MediaPlayer.create(getBaseContext(), R.raw.bensound_jazzcomedy_reverse);
+        //mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.bensound_thelounge_random);
+        mediaPlayer.setLooping(true);
+        //mediaPlayer.start();
+
+        randomMusicStatus = findViewById(R.id.random_sound_on_button);
+        reverseMusicStatus = findViewById(R.id.reverse_sound_on_button);
+        wildMusicStatus = findViewById(R.id.wild_sound_on_button);
 
         player1Text = findViewById(R.id.player1_score_textview);
         player2Text = findViewById(R.id.player2_score_textview);
@@ -68,12 +79,35 @@ public class ReverseTicTacToe extends AppCompatActivity implements  View.OnClick
         turnText = findViewById(R.id.turn_textview);
 
         // switch music on and off
-        findViewById(R.id.sound_on_button).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.random_sound_on_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (musicOff == false)
                 {
-                    musicStatus.setText("MUSIC ON");
+                    randomMusicStatus.setText("(RAND)MUSIC ON");
+                    mediaPlayer = MediaPlayer.create(getBaseContext(), R.raw.bensound_thelounge_random);
+                    mediaPlayer.setLooping(true);
+                    mediaPlayer.start();
+                    musicOff = true;
+                }
+                // true
+                else
+                {
+                    randomMusicStatus.setText("(RAND)MUSIC OFF");
+                    mediaPlayer.stop();
+                    mediaPlayer.reset();
+                    musicOff = false;
+                }
+            }
+        });
+
+        // switch music on and off
+        findViewById(R.id.reverse_sound_on_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (musicOff == false)
+                {
+                    reverseMusicStatus.setText("(REV)MUSIC ON");
                     mediaPlayer = MediaPlayer.create(getBaseContext(), R.raw.bensound_jazzcomedy_reverse);
                     mediaPlayer.setLooping(true);
                     mediaPlayer.start();
@@ -82,7 +116,7 @@ public class ReverseTicTacToe extends AppCompatActivity implements  View.OnClick
                 // true
                 else
                 {
-                    musicStatus.setText("MUSIC OFF");
+                    reverseMusicStatus.setText("(REV)MUSIC OFF");
                     mediaPlayer.stop();
                     mediaPlayer.reset();
                     musicOff = false;
@@ -90,7 +124,30 @@ public class ReverseTicTacToe extends AppCompatActivity implements  View.OnClick
             }
         });
 
-        /*
+        // switch music on and off
+        findViewById(R.id.wild_sound_on_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (musicOff == false)
+                {
+                    wildMusicStatus.setText("(WILD)MUSIC ON");
+                    mediaPlayer = MediaPlayer.create(getBaseContext(), R.raw.bensound_jazzyfrenchy_wild);
+                    mediaPlayer.setLooping(true);
+                    mediaPlayer.start();
+                    musicOff = true;
+                }
+                // true
+                else
+                {
+                    wildMusicStatus.setText("(WILD)MUSIC OFF");
+                    mediaPlayer.stop();
+                    mediaPlayer.reset();
+                    musicOff = false;
+                }
+            }
+        });
+
+
         findViewById(R.id.replay_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -104,7 +161,7 @@ public class ReverseTicTacToe extends AppCompatActivity implements  View.OnClick
                 }
             }
         });
-        */
+
 
         for (int i = 0; i < 3; i++)
         {
@@ -289,15 +346,21 @@ public class ReverseTicTacToe extends AppCompatActivity implements  View.OnClick
     public void winAlertDialog(int playerNum) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Congratulations!");
-        builder.setMessage("Player "+ playerNum + " won! Click 'OK' to play another game.");
+        builder.setMessage("Player "+ playerNum + " won! Click 'Play again!' or 'OK' to play another game.");
 
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+        builder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int choice) {
                 // Dismiss Dialog
-
-                //resetBoard();
                 Intent i = new Intent(getApplicationContext(), MainActivity.class);
                 getApplicationContext().startActivity(i);
+            }
+        });
+
+        builder.setPositiveButton("Play again!", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int choice) {
+                // Dismiss Dialog
+                //Intent i = new Intent(getApplicationContext(), ReverseTicTacToe.class);
+                //getApplicationContext().startActivity(i);
             }
         });
 
