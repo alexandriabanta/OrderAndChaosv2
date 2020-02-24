@@ -9,18 +9,31 @@
         android:roundIcon="@mipmap/ic_launcher_x_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".GameplayActivity"></activity>
-        <activity android:name=".RandomTicTacToe"></activity>
-        <activity android:name=".AboutAppActivity" />
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".GameplayActivity"
+            android:screenOrientation="sensorPortrait">
+        </activity>
+        <activity
+            android:name=".RandomTicTacToe"
+            android:screenOrientation="sensorPortrait">
+        </activity>
+        <activity
+            android:name=".ReverseTicTacToe"
+            android:screenOrientation="sensorPortrait">
+        </activity>
+        <activity
+            android:name=".AboutAppActivity"
+            android:screenOrientation="sensorPortrait">
+        </activity>
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="sensorPortrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ReverseTicTacToe"/>
-        <activity android:name=".RandomTicTacToe"/>
 
         <meta-data
             android:name="preloaded_fonts"

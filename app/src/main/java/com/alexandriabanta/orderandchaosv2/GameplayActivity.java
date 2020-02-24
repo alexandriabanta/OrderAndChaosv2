@@ -10,8 +10,11 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.Toast;
 import android.widget.ImageButton;
@@ -44,6 +47,10 @@ public class GameplayActivity extends AppCompatActivity implements View.OnClickL
     public int playerNum = 1;
     Boolean someoneWon = false;
 
+    private MediaPlayer mediaPlayer;
+    Boolean musicOff = true;
+    private Button musicStatus;
+
     // 3x3 array of IDs corresponding to board array
     public static int[][] IDArr = {
             {R.id.row0col0, R.id.row0col1, R.id.row0col2},
@@ -55,6 +62,7 @@ public class GameplayActivity extends AppCompatActivity implements View.OnClickL
     // onSavedInstance purposes
     public int[] oneDBoard = {0,0,0,0,0,0,0,0,0};
     int pieceTypeNum = 1;
+    int turnCount = 0;
 
 
     @Override
@@ -62,6 +70,35 @@ public class GameplayActivity extends AppCompatActivity implements View.OnClickL
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_gameplay);
 
+        mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.bensound_jazzyfrenchy_wild);
+        this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
+        mediaPlayer = MediaPlayer.create(getBaseContext(), R.raw.bensound_jazzyfrenchy_wild);
+        mediaPlayer.setLooping(true);
+        mediaPlayer.start();
+        musicStatus = findViewById(R.id.sound_on_button);
+
+        // switch music on and off
+        findViewById(R.id.sound_on_button).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (musicOff == false)
+                {
+                    musicStatus.setText("MUSIC ON");
+                    mediaPlayer = MediaPlayer.create(getBaseContext(), R.raw.bensound_jazzyfrenchy_wild);
+                    mediaPlayer.setLooping(true);
+                    mediaPlayer.start();
+                    musicOff = true;
+                }
+                // true
+                else
+                {
+                    musicStatus.setText("MUSIC OFF");
+                    mediaPlayer.stop();
+                    mediaPlayer.reset();
+                    musicOff = false;
+                }
+            }
+        });
 
         File save = new File(getFilesDir(), "wildTicTacToe.txt");
 
@@ -233,7 +270,7 @@ public class GameplayActivity extends AppCompatActivity implements View.OnClickL
     public void playerTurn(View spaceChosen) {
         //assuming no one has won yet
 
-        if (!checkForWinner()) {
+        if (!checkForWinner() && turnCount < 9) {
 
             // get the corresponding index in the board arr
             int rowOfSpaceChosen = 0;
@@ -270,6 +307,8 @@ public class GameplayActivity extends AppCompatActivity implements View.OnClickL
                     switchPlayers();
                 }
 
+                turnCount++;
+
             } else if (board[rowOfSpaceChosen][colOfSpaceChosen] != space.BLANK) {
                 //make a toast message that says "error, space taken. Try again with a different space.
                 Toast toast = Toast.makeText(getApplicationContext(),
@@ -278,7 +317,8 @@ public class GameplayActivity extends AppCompatActivity implements View.OnClickL
                 toast.show();
             }
 
-        }  //else showWinnerAlertDialog();
+        }
+        if (turnCount >= 9) showDrawAlertDialog(); // if board is full, then this is a draw
     }
 
 
@@ -478,6 +518,13 @@ public class GameplayActivity extends AppCompatActivity implements View.OnClickL
                         ((ImageButton) findViewById(IDArr[i][j])).setImageResource(R.drawable.blank_board_piece);
                     }
                 }
+
+                //turn off music
+                musicStatus.setText("MUSIC OFF");
+                mediaPlayer.stop();
+                mediaPlayer.reset();
+                musicOff = false;
+                playerNum = 1; pieceType = pieceTypes.Xes;
             }
         });
 
@@ -486,6 +533,45 @@ public class GameplayActivity extends AppCompatActivity implements View.OnClickL
         dialog.getWindow().setLayout(1100, 600);
     }
 
+
+    public void showDrawAlertDialog() {
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Oh no!");
+        builder.setMessage("Looks like this one is a draw! Click 'OK' to play another game.");
+
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int choice) {
+                // Dismiss Dialog
+                Intent in = new Intent(getApplicationContext(), MainActivity.class);
+                getApplicationContext().startActivity(in);
+
+                File file = new File(getFilesDir(),"wildTicTacToe.txt");
+                file.delete();
+
+                //clear board
+                for (int i = 0; i < ROWS; i++) {
+                    for (int j = 0; j < COLS; j++) {
+                        board[i][j] = space.BLANK;
+                        ((ImageButton) findViewById(IDArr[i][j])).setImageResource(R.drawable.blank_board_piece);
+                    }
+                }
+
+                //turn off music
+                musicStatus.setText("MUSIC OFF");
+                mediaPlayer.stop();
+                mediaPlayer.reset();
+                musicOff = false;
+
+                playerNum = 1; pieceType = pieceTypes.Xes;
+                turnCount = 0;
+            }
+        });
+
+        AlertDialog dialog = builder.create();
+        dialog.show();
+        dialog.getWindow().setLayout(1100, 600);
+    }
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {

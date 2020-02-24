@@ -47,7 +47,7 @@ public class ReverseTicTacToe extends AppCompatActivity implements  View.OnClick
     private boolean button3_3Clicked = false;
 
     private MediaPlayer mediaPlayer;
-    Boolean musicOff = true;
+    Boolean randMusicOff, revMusicOff, wildMusicOff;
     private Button randomMusicStatus;
     private Button reverseMusicStatus;
     private Button wildMusicStatus;
@@ -64,40 +64,58 @@ public class ReverseTicTacToe extends AppCompatActivity implements  View.OnClick
 
         // music
         this.setVolumeControlStream(AudioManager.STREAM_MUSIC);
-        mediaPlayer = MediaPlayer.create(getBaseContext(), R.raw.bensound_jazzcomedy_reverse);
+        mediaPlayer = MediaPlayer.create(getBaseContext(), R.raw.bensound_thelounge_random);
         //mediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.bensound_thelounge_random);
         mediaPlayer.setLooping(true);
         //mediaPlayer.start();
 
         randomMusicStatus = findViewById(R.id.random_sound_on_button);
+        randomMusicStatus.setText("(RAND)MUSIC OFF");
         reverseMusicStatus = findViewById(R.id.reverse_sound_on_button);
+        reverseMusicStatus.setText("(REV)MUSIC OFF");
         wildMusicStatus = findViewById(R.id.wild_sound_on_button);
+        wildMusicStatus.setText("(WILD)MUSIC OFF");
 
         player1Text = findViewById(R.id.player1_score_textview);
         player2Text = findViewById(R.id.player2_score_textview);
         roundNumberText = findViewById(R.id.roundCount_number);
         turnText = findViewById(R.id.turn_textview);
 
+        //enable music
+        randMusicOff = true; revMusicOff = true; wildMusicOff = true;
+
         // switch music on and off
         findViewById(R.id.random_sound_on_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (musicOff == false)
+                if (randMusicOff)
                 {
+                    //Log.i("RAND","music off -> on");
+                    //then this is the one playing now; adjust the text of the others
                     randomMusicStatus.setText("(RAND)MUSIC ON");
+
+                    //reset from any previous music
+                    mediaPlayer.stop();
+                    mediaPlayer.reset();
+                    revMusicOff = true; wildMusicOff = true;
+
                     mediaPlayer = MediaPlayer.create(getBaseContext(), R.raw.bensound_thelounge_random);
                     mediaPlayer.setLooping(true);
                     mediaPlayer.start();
-                    musicOff = true;
+                    //musicOff = false;
                 }
                 // true
                 else
                 {
                     randomMusicStatus.setText("(RAND)MUSIC OFF");
+                    Log.i("RAND","music on -> off");
                     mediaPlayer.stop();
                     mediaPlayer.reset();
-                    musicOff = false;
+                    randMusicOff = true;
                 }
+                //this one has been selected; others should be off
+                reverseMusicStatus.setText("(REV)MUSIC OFF");
+                wildMusicStatus.setText("(WILD)MUSIC OFF");
             }
         });
 
@@ -105,13 +123,21 @@ public class ReverseTicTacToe extends AppCompatActivity implements  View.OnClick
         findViewById(R.id.reverse_sound_on_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (musicOff == false)
+                if (revMusicOff)
                 {
+                    //then this is the one playing now; adjust the text of the others
                     reverseMusicStatus.setText("(REV)MUSIC ON");
+
+                    //reset from any previous music
+                    mediaPlayer.stop();
+                    mediaPlayer.reset();
+                    randMusicOff = true; wildMusicOff = true;
+
                     mediaPlayer = MediaPlayer.create(getBaseContext(), R.raw.bensound_jazzcomedy_reverse);
                     mediaPlayer.setLooping(true);
                     mediaPlayer.start();
-                    musicOff = true;
+                    revMusicOff = false;
+
                 }
                 // true
                 else
@@ -119,8 +145,11 @@ public class ReverseTicTacToe extends AppCompatActivity implements  View.OnClick
                     reverseMusicStatus.setText("(REV)MUSIC OFF");
                     mediaPlayer.stop();
                     mediaPlayer.reset();
-                    musicOff = false;
+                    revMusicOff = true;
                 }
+                //this one has been selected; others should be off
+                randomMusicStatus.setText("(RAND)MUSIC OFF");
+                wildMusicStatus.setText("(WILD)MUSIC OFF");
             }
         });
 
@@ -128,13 +157,20 @@ public class ReverseTicTacToe extends AppCompatActivity implements  View.OnClick
         findViewById(R.id.wild_sound_on_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (musicOff == false)
+                if (wildMusicOff)
                 {
+                    //then this is the one playing now; adjust the text of the others
                     wildMusicStatus.setText("(WILD)MUSIC ON");
+
+                    //reset from any previous music
+                    mediaPlayer.stop();
+                    mediaPlayer.reset();
+                    revMusicOff = true; randMusicOff = true;
+
                     mediaPlayer = MediaPlayer.create(getBaseContext(), R.raw.bensound_jazzyfrenchy_wild);
                     mediaPlayer.setLooping(true);
                     mediaPlayer.start();
-                    musicOff = true;
+                    wildMusicOff = false;
                 }
                 // true
                 else
@@ -142,8 +178,11 @@ public class ReverseTicTacToe extends AppCompatActivity implements  View.OnClick
                     wildMusicStatus.setText("(WILD)MUSIC OFF");
                     mediaPlayer.stop();
                     mediaPlayer.reset();
-                    musicOff = false;
+                    wildMusicOff = true;
                 }
+                //this one has been selected; others should be off
+                reverseMusicStatus.setText("(REV)MUSIC OFF");
+                randomMusicStatus.setText("(RAND)MUSIC OFF");
             }
         });
 
@@ -200,7 +239,6 @@ public class ReverseTicTacToe extends AppCompatActivity implements  View.OnClick
         {
             return;
         }
-
 
 
         if (player1Turn)
@@ -291,6 +329,10 @@ public class ReverseTicTacToe extends AppCompatActivity implements  View.OnClick
         Toast.makeText(this, "Draw!", Toast.LENGTH_SHORT).show();
         count = 0;
         //resetBoard();
+        //turn off music
+        mediaPlayer.stop();
+        mediaPlayer.reset();
+        randMusicOff = true; revMusicOff = true; wildMusicOff = true;
     }
 
     private void updatePointsText()
@@ -353,6 +395,9 @@ public class ReverseTicTacToe extends AppCompatActivity implements  View.OnClick
                 // Dismiss Dialog
                 Intent i = new Intent(getApplicationContext(), MainActivity.class);
                 getApplicationContext().startActivity(i);
+                mediaPlayer.stop();
+                mediaPlayer.reset();
+                randMusicOff = true; revMusicOff = true; wildMusicOff = true;
             }
         });
 

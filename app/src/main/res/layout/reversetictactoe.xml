@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
-    android:background="@drawable/gameplay_background"
+    android:background="@drawable/purple_background"
     android:layout_height="match_parent">
 
     <ScrollView
@@ -13,8 +13,11 @@
         android:background="#00CA2626"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -29,8 +32,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Reverse Tic Tac Toe "
-                    android:fontFamily="@font/alegreya_sans_light"
-                    android:textColor="#000"
+                    android:textColor="#fff"
                     android:textSize="40sp"
                     android:textStyle="bold" />
             </RelativeLayout>
@@ -38,18 +40,31 @@
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:orientation="horizontal"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:orientation="horizontal">
 
                 <Button
-                    android:id="@+id/sound_on_button"
-                    android:layout_width="200dp"
-                    android:text="MUSIC ON"
+                    android:id="@+id/random_sound_on_button"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toEndOf="@+id/game_name" />
+                    android:layout_toEndOf="@+id/game_name"
+                    android:text="(RAND)MUSIC ON" />
+
+                <Button
+                    android:id="@+id/reverse_sound_on_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/game_name"
+                    android:text="(REV)MUSIC ON" />
+
+                <Button
+                    android:id="@+id/wild_sound_on_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_toEndOf="@+id/game_name"
+                    android:text="(WILD)MUSIC ON" />
 
             </LinearLayout>
-
 
 
             <RelativeLayout
@@ -57,14 +72,12 @@
                 android:layout_height="wrap_content">
 
 
-
                 <TextView
                     android:id="@+id/player1_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Player 1(X): "
-                    android:fontFamily="@font/alegreya_sans_light"
-                    android:textColor="#000"
+                    android:textColor="#fff"
                     android:textSize="30sp"
                     android:textStyle="bold" />
 
@@ -74,8 +87,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/player1_textview"
                     android:text="Player 2(O): "
-                    android:fontFamily="@font/alegreya_sans_light"
-                    android:textColor="#000"
+                    android:textColor="#fff"
                     android:textSize="30sp"
                     android:textStyle="bold" />
 
@@ -84,9 +96,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/player1_textview"
-                    android:textColor="#000"
-                    android:textStyle="bold"
-                    android:textSize="30sp" />
+                    android:textColor="#fff"
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/player2_score_textview"
@@ -94,10 +106,9 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/player1_score_textview"
                     android:layout_toRightOf="@id/player2_textview"
-                    android:background="@color/Dark"
                     android:textColor="#fff"
-                    android:textStyle="bold"
-                    android:textSize="30sp" />
+                    android:textSize="30sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/roundCount_textView"
@@ -105,8 +116,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/player2_textview"
                     android:text="Round: "
-                    android:fontFamily="@font/alegreya_sans_light"
-                    android:textColor="#000"
+                    android:textColor="#fff"
                     android:textSize="20sp"
                     android:textStyle="bold" />
 
@@ -116,7 +126,6 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@+id/roundCount_textView"
                     android:text=""
-                    android:background="@color/Dark"
                     android:textColor="#fff"
                     android:textSize="20sp"
                     android:textStyle="bold" />
@@ -124,14 +133,11 @@
             </RelativeLayout>
 
 
-
-
-
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
-                android:orientation="horizontal"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:orientation="horizontal">
 
                 <TextView
                     android:id="@+id/turn_textview"
@@ -139,11 +145,9 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
                     android:text="Turn: Player 1"
-                    android:fontFamily="@font/alegreya_sans_light"
-                    android:textColor="#000"
+                    android:textColor="#fff"
                     android:textSize="30sp"
                     android:textStyle="bold" />
-
 
 
             </LinearLayout>
@@ -257,16 +261,16 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
-                android:orientation="horizontal"
-                android:layout_weight="1">
+                android:layout_weight="1"
+                android:orientation="horizontal">
 
                 <Button
                     android:id="@+id/replay_button"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:fontFamily="@font/alegreya_sans_light"
                     android:background="#fff"
+                    android:text="Replay"
                     android:textColor="#000"
                     android:textSize="30sp" />
             </LinearLayout>
@@ -274,6 +278,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
+
                 <TextView
                     android:id="@+id/instructions"
                     android:layout_width="wrap_content"
@@ -281,8 +286,7 @@
                     android:layout_alignParentTop="true"
                     android:layout_marginTop="0dp"
                     android:text="This is reverse tic tac toe. If you get 3 in a row, YOU LOSE! Have fun!"
-                    android:fontFamily="@font/alegreya_sans_light"
-                    android:textColor="#000"
+                    android:textColor="#fff"
                     android:textSize="25sp"
                     android:textStyle="bold" />
             </RelativeLayout>
