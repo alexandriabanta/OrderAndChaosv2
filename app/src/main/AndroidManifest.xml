@@ -20,7 +20,6 @@
             </intent-filter>
         </activity>
         <activity android:name=".ReverseTicTacToe"/>
-        <activity android:name=".RandomTicTacToe"/>
 
         <meta-data
             android:name="preloaded_fonts"
